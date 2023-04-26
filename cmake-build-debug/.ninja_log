@@ -1,0 +1,6 @@
+# ninja log v5
+20	535	7042149266548816	CMakeFiles/project_spring_2023.dir/Sources/Warrior.cpp.obj	43d4169c49fae4ab
+0	599	7042149267179752	CMakeFiles/project_spring_2023.dir/main.cpp.obj	ea29c83aaa992769
+13	692	7042149268131990	CMakeFiles/project_spring_2023.dir/Sources/Game.cpp.obj	cba97765a83b0d3e
+7	990	7042149271101064	CMakeFiles/project_spring_2023.dir/Sources/Headquarters.cpp.obj	6ad8ae766cb3891d
+990	1177	7042149272924895	project_spring_2023.exe	96bbc6516d760716
