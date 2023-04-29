@@ -1,5 +1,8 @@
 #include "../Headers/Game.h"
 #include <iomanip>
+std::string color_str[2] = { "red","blue" };
+std::string warrior_str[5] = { "dragon","ninja","iceman","lion","wolf" };
+std::string weapon_str[3] = { "sword","bomb","arrow" };
 void Game::Run() {
     int m;
     int life[5];

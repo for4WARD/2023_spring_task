@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include "Warriors.h"
+#include "Map.h"
 #ifndef PROJECT_2023_SPRING_TASK_HEADQUARTERS_H
 #define PROJECT_2023_SPRING_TASK_HEADQUARTERS_H
 class Headquarter{
