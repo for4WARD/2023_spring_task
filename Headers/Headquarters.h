@@ -12,27 +12,23 @@ class Headquarter{
 public:
     int order[5],life[5],attack[5],number[5];
     int stop;
-    int M;
+    int M,K;
     int construct=0;
     int serial_number=0;
-    std::vector<Dragon*>Vector_dragon;
-    std::vector<Ninja*>Vector_ninja;
-    std::vector<Iceman*>Vector_iceman;
-    std::vector<Lion*>Vector_lion;
-    std::vector<Wolf*>Vector_wolf;
+    std::vector<Warrior*>vector_warrior;
     bool on;
 
 };
 class Blue_headquarter:public Headquarter{
 public:
-    Blue_headquarter(const int Life_value[],int m,const int attack_value[]);
+    Blue_headquarter(const int Life_value[],int m,const int attack_value[],int K);
     ~Blue_headquarter();
-    void generate();
+    int generate();
 };
 class Red_headquarter:public Headquarter{
 public:
-    Red_headquarter(const int Life_value[],int m,const int attack_value[]);
+    Red_headquarter(const int Life_value[],int m,const int attack_value[],int K);
     ~Red_headquarter();
-    void generate();
+    int generate();
 };
 #endif //PROJECT_2023_SPRING_TASK_HEADQUARTERS_H

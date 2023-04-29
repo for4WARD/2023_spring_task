@@ -14,29 +14,21 @@ public:
     int number,life,attack;
     bool dead= false;
     int sword_attack,bomb_attack,bomb_self_attack,arrow_attack;
+    int type_num;
     std::string name;
-    std::deque<Sword*>deque_sword;
-    std::deque<Bomb*>deque_bomb;
-    std::deque<Arrow*>deque_arrow;
+    std::deque<Weapon*>dq_weapon;
     std::string weapons[3]={"sword","bomb","arrow"};
 };
 class Dragon:public Warrior{
 public:
     std::string weapon;
     double morale;
-    Dragon(int Number,int Attack,int Life){
-        number=Number;
-        attack=Attack;
-        life=Life;
-        weapon=weapons[number%3];
-    }
     Dragon(int Number,int Attack,int Life,double Morale){
+        type_num=0;
         name="dragon";
-        auto *weapons=new std::string[3]{"sword","bomb","arrow"};
         number=Number;
         attack=Attack;
         life=Life;
-        weapon=weapons[number%3];
         morale=Morale;
         sword_attack=floor(attack*2.0/10);
         bomb_attack= floor(attack*4.0/10);
@@ -44,36 +36,27 @@ public:
         arrow_attack= floor(attack*3.0/10);
         if (number%3==0){
             Sword *sword=new Sword();
-            deque_sword.push_back(sword);
+            dq_weapon.emplace_back(sword);
         }else if (number%3==1){
             Bomb *bomb=new Bomb();
-            deque_bomb.push_back(bomb);
+            dq_weapon.emplace_back(bomb);
         }else{
             Arrow *arrow=new Arrow();
-            deque_arrow.push_back(arrow);
+            dq_weapon.emplace_back(arrow);
         }
     }
     ~Dragon(){
-        for (auto &item: deque_arrow){
+        for (auto &item: dq_weapon){
             delete item;
         }
-        for (auto &item:deque_bomb) {
-            delete item;
-        }
-        for(auto item:deque_sword){
-            delete item;
-        }
-        deque_sword.clear();
-        deque_bomb.clear();
-        deque_arrow.clear();
+        dq_weapon.clear();
     }
 
 };
 class Ninja:public Warrior{
 public:
-    std::string weapon1;
-    std::string weapon2;
     Ninja(int Number,int Attack,int Life){
+        type_num=1;
         name="ninja";
         number=Number;
         attack=Attack;
@@ -84,46 +67,37 @@ public:
         arrow_attack= floor(attack*3.0/10);
         if (number%3==0){
             Sword *sword=new Sword();
-            deque_sword.push_back(sword);
+            dq_weapon.emplace_back(sword);
         }else if (number%3==1){
             Bomb *bomb=new Bomb();
-            deque_bomb.push_back(bomb);
+            dq_weapon.emplace_back(bomb);
         }else{
             Arrow *arrow=new Arrow();
-            deque_arrow.push_back(arrow);
+            dq_weapon.emplace_back(arrow);
         }
         if ((number+1)%3==0){
             Sword *sword=new Sword();
-            deque_sword.push_back(sword);
+            dq_weapon.emplace_back(sword);
         }else if ((number+1)%3==1){
             Bomb *bomb=new Bomb();
-            deque_bomb.push_back(bomb);
+            dq_weapon.emplace_back(bomb);
         }else{
             Arrow *arrow=new Arrow();
-            deque_arrow.push_back(arrow);
+            dq_weapon.emplace_back(arrow);
         }
-        weapon1=weapons[number%3];
-        weapon2=weapons[(number+1)%3];
     }
     ~Ninja(){
-        for (auto &item: deque_arrow){
+        for (auto &item: dq_weapon){
             delete item;
         }
-        for (auto &item:deque_bomb) {
-            delete item;
-        }
-        for(auto item:deque_sword){
-            delete item;
-        }
-        deque_sword.clear();
-        deque_bomb.clear();
-        deque_arrow.clear();
+        dq_weapon.clear();
     }
 };
 class Iceman:public Warrior{
 public:
     std::string weapon;
     Iceman(int Number,int Attack,int Life){
+        type_num=2;
         name="iceman";
         number=Number;
         attack=Attack;
@@ -134,40 +108,30 @@ public:
         arrow_attack= floor(attack*3.0/10);
         if (number%3==0){
             Sword *sword=new Sword();
-            deque_sword.push_back(sword);
+            dq_weapon.emplace_back(sword);
         }else if (number%3==1){
             Bomb *bomb=new Bomb();
-            deque_bomb.push_back(bomb);
+            dq_weapon.emplace_back(bomb);
         }else{
             Arrow *arrow=new Arrow();
-            deque_arrow.push_back(arrow);
+            dq_weapon.emplace_back(arrow);
         }
-        weapon=weapons[number%3];
     }
     ~Iceman(){
-        for (auto &item: deque_arrow){
+        for (auto &item: dq_weapon){
             delete item;
         }
-        for (auto &item:deque_bomb) {
-            delete item;
-        }
-        for(auto item:deque_sword){
-            delete item;
-        }
-        deque_sword.clear();
-        deque_bomb.clear();
-        deque_arrow.clear();
+        dq_weapon.clear();
     }
 };
 class Lion:public Warrior{
 public:
     int loyalty;
-    Lion(int Number,int Attack,int Life){
-        number=Number;
-        attack=Attack;
-        life=Life;
-    }
-    Lion(int Number,int Attack,int Life,int Loyalty){
+    int K;
+    bool flee=false;
+    Lion(int Number,int Attack,int Life,int Loyalty,int k){
+        type_num=3;
+        K=k;
         number=Number;
         attack=Attack;
         life=Life;
@@ -176,26 +140,33 @@ public:
         bomb_attack= floor(attack*4.0/10);
         bomb_self_attack= floor(bomb_attack*5.0/10);
         arrow_attack= floor(attack*3.0/10);
+        if (number%3==0){
+            Sword *sword=new Sword();
+            dq_weapon.emplace_back(sword);
+        }else if (number%3==1){
+            Bomb *bomb=new Bomb();
+            dq_weapon.emplace_back(bomb);
+        }else{
+            Arrow *arrow=new Arrow();
+            dq_weapon.emplace_back(arrow);
+        }
+    }
+    void forge();
+    bool check(){
+        return loyalty<=0;
     }
     ~Lion(){
-        for (auto &item: deque_arrow){
+        for (auto &item: dq_weapon){
             delete item;
         }
-        for (auto &item:deque_bomb) {
-            delete item;
-        }
-        for(auto item:deque_sword){
-            delete item;
-        }
-        deque_sword.clear();
-        deque_bomb.clear();
-        deque_arrow.clear();
+        dq_weapon.clear();
     }
 
 };
 class Wolf:public Warrior{
 public:
     Wolf(int Number,int Attack,int Life){
+        type_num=4;
         number=Number;
         attack=Attack;
         life=Life;
@@ -205,18 +176,10 @@ public:
         arrow_attack= floor(attack*3.0/10);
     }
     ~Wolf(){
-        for (auto &item: deque_arrow){
+        for (auto &item: dq_weapon){
             delete item;
         }
-        for (auto &item:deque_bomb) {
-            delete item;
-        }
-        for(auto item:deque_sword){
-            delete item;
-        }
-        deque_sword.clear();
-        deque_bomb.clear();
-        deque_arrow.clear();
+        dq_weapon.clear();
     }
 };
 #endif //PROJECT_2023_SPRING_TASK_WARRIORS_H
