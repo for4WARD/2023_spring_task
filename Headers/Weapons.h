@@ -13,7 +13,7 @@ public:
     std::string get_name(){
         return name;
     }
-    bool remove(){
+    bool need_remove(){
         return use_time==0;
     }
     void use(){

@@ -10,6 +10,7 @@
 #define PROJECT_2023_SPRING_TASK_HEADQUARTERS_H
 class Headquarter{
 public:
+    bool update=true;
     int order[5],life[5],attack[5],number[5];
     int stop;
     int M,K;

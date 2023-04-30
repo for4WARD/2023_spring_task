@@ -7,9 +7,11 @@
 #ifndef PROJECT_SPRING_2023_MAP_H
 #define PROJECT_SPRING_2023_MAP_H
 class Map{
-    City* red_cities[22];
-    City* blue_cities[22];
+public:
+    City* red_cities[42];
+    City* blue_cities[42];
     int num_of_city;
     Map(int num_of_city);
+    void forge();
 };
 #endif //PROJECT_SPRING_2023_MAP_H
