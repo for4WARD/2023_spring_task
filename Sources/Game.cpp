@@ -80,6 +80,10 @@ void Game::Run() {
                     Lion *l = static_cast<Lion *>(item);
                     l->forge();
                 }
+                if (item->type_num == 2 && !item->dead) {
+                    Iceman *i = static_cast<Iceman *>(item);
+                    i->forge();
+                }
             }
             for (auto &item: blue_headquarter.vector_warrior) {
                 if (item->type_num == 3 && !item->dead) {
@@ -135,6 +139,12 @@ void Game::Run() {
             for (int i = 1; i <=n ; ++i) {
                 auto city=map.red_cities[i];
                 city->steal(time);
+            }
+        }
+        else if (time % 60 == 40){
+            for (int i = 1; i <=n ; ++i) {
+                auto city=map.red_cities[i];
+                city->fight(time);
             }
         }
         else if (time % 60 == 50) {

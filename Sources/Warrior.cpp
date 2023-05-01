@@ -14,7 +14,7 @@ void Lion::ran_away() {
     std::cout<<camp<<" "<<name<<" "<<number<<" ran away"<<std::endl;
 }
 void Iceman::forge() {
-    life-=life/10;
+    life-=(life/10);
 }
 
 void Warrior::weaponSort() {
