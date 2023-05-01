@@ -18,7 +18,7 @@ void City::steal(int time) {
                 warrior=red;
             }
             int max_steal=10-wolf->weapon_count[0]-wolf->weapon_count[1]-wolf->weapon_count[2];
-            for (int i = 0; i <3 ; ++i) {
+            for (int i = 0; i <1 ; ++i) {
                 if (warrior->weapon_count[0]!=0){
                     int maximal=std::min(warrior->weapon_count[0],max_steal);
                     for (int j = 0; j <maximal ; ++j) {
@@ -29,7 +29,7 @@ void City::steal(int time) {
                         warrior->weapon_count[0]-=1;
                     }
                     std::cout << std::setw(3) << std::setfill('0') << (time / 60) << ":35 "<<wolf->camp<<" wolf "<<wolf->number
-                    <<" took "<<maximal<<" sword from "<<warrior->camp<<" "<<warrior->name<<" in city "<<this->number<<std::endl;
+                              <<" took "<<maximal<<" sword from "<<warrior->camp<<" "<<warrior->name<<" "<<warrior->number<<" in city "<<this->number<<std::endl;
                 }
                 else if (warrior->weapon_count[1]!=0){
                     int maximal=std::min(warrior->weapon_count[1],max_steal);
@@ -41,7 +41,7 @@ void City::steal(int time) {
                         warrior->weapon_count[1]-=1;
                     }
                     std::cout << std::setw(3) << std::setfill('0') << (time / 60) << ":35 "<<wolf->camp<<" wolf "<<wolf->number
-                              <<" took "<<maximal<<" bomb from "<<warrior->camp<<" "<<warrior->name<<" in city "<<this->number<<std::endl;
+                              <<" took "<<maximal<<" bomb from "<<warrior->camp<<" "<<warrior->name<<" "<<warrior->number<<" in city "<<this->number<<std::endl;
                 }
                 else if (warrior->weapon_count[2]!=0){
                     int maximal=std::min(warrior->weapon_count[2],max_steal);
@@ -53,7 +53,7 @@ void City::steal(int time) {
                         warrior->weapon_count[2]-=1;
                     }
                     std::cout << std::setw(3) << std::setfill('0') << (time / 60) << ":35 "<<wolf->camp<<" wolf "<<wolf->number
-                              <<" took "<<maximal<<" arrow from "<<warrior->camp<<" "<<warrior->name<<" in city "<<this->number<<std::endl;
+                              <<" took "<<maximal<<" arrow from "<<warrior->camp<<" "<<warrior->name<<" "<<warrior->number<<" in city "<<this->number<<std::endl;
                 }
             }
         }
@@ -74,11 +74,13 @@ void City::fight(int time) {
         }
         auto it_first=first->dq_weapon.begin();
         auto it_second=second->dq_weapon.begin();
-        while(!first->dead&&!second->dead){
+        bool flag1= true,flag2= true;
+        while(!first->dead&&!second->dead&&!((!flag1&&second->dq_weapon.empty())||(!flag2&&first->dq_weapon.empty())||(!flag1&&!flag2))){
             if (!first->dead&&!first->dq_weapon.empty()){
                 auto weapon=*it_first;
                 weapon->use();
                 if (weapon->type_num==0){
+                    if (first->weapon_count[1]==0&&first->weapon_count[2]==0&&first->sword_attack==0)flag1= false;
                     second->life=second->life-first->sword_attack;
                 }
                 else if (weapon->type_num==1){
@@ -108,6 +110,7 @@ void City::fight(int time) {
                 auto weapon=*it_second;
                 weapon->use();
                 if (weapon->type_num==0){
+                    if (second->weapon_count[1]==0&&second->weapon_count[2]==0&&second->sword_attack==0)flag2= false;
                     first->life-=second->sword_attack;
                 }
                 else if (weapon->type_num==1){
@@ -149,6 +152,7 @@ void City::fight(int time) {
                 for (int j = 0; j <to_steal ; ++j) {
                     auto weapon=dead->dq_weapon[0];
                     alive->dq_weapon.push_back(weapon);
+                    alive->weapon_count[i]+=1;
                     dead->dq_weapon.pop_front();
                     maximal-=1;
                 }
@@ -157,11 +161,19 @@ void City::fight(int time) {
             for (int j = 0; j <to_steal ; ++j) {
                 auto weapon=dead->dq_weapon[dead->dq_weapon.size()-1];
                 alive->dq_weapon.push_back(weapon);
+                alive->weapon_count[2]+=1;
                 dead->dq_weapon.pop_back();
                 maximal-=1;
             }
+            alive->weaponSort();
             std::cout<<std::setw(3)<<std::setfill('0')<<(time/60)<<":40 "<<alive->camp<<" "<<alive->name<<" "<<alive->number<<" killed "<<dead->camp<<" "<<dead->name
                      <<" "<<dead->number<<" in city "<< this->number<<" remaining "<<alive->life<<" elements"<<std::endl;
+//            std::cout<<std::setw(3)<<std::setfill('0')<<(time/60)<<":40 "<<alive->camp<<" "<<alive->name<<" "<<alive->number<<" yelled in city "
+//                     <<this->number<<std::endl;
+            if (alive->type_num==0){
+                std::cout<<std::setw(3)<<std::setfill('0')<<(time/60)<<":40 "<<alive->camp<<" "<<alive->name<<" "<<alive->number<<" yelled in city "
+                         <<this->number<<std::endl;
+            }
         }
         if(first->dead&&second->dead){
             std::cout<<std::setw(3)<<std::setfill('0')<<(time/60)<<":40 both "<<red->camp<<" "<<red->name<<" "<<red->number<<" and "
@@ -170,6 +182,19 @@ void City::fight(int time) {
         else if (!first->dead&&!second->dead){
             std::cout<<std::setw(3)<<std::setfill('0')<<(time/60)<<":40 both "<<red->camp<<" "<<red->name<<" "<<red->number<<" and "
                      <<blue->camp<<" "<<blue->name<<" "<<blue->number<<" were alive in city "<<this->number<<std::endl;
+            if (first->camp!="red"){
+                auto it=second;
+                second=first;
+                first=it;
+            }
+            if (first->type_num==0){
+                std::cout<<std::setw(3)<<std::setfill('0')<<(time/60)<<":40 "<<first->camp<<" "<<first->name<<" "<<first->number<<" yelled in city "
+                <<this->number<<std::endl;
+            }
+            if (second->type_num==0){
+                std::cout<<std::setw(3)<<std::setfill('0')<<(time/60)<<":40 "<<second->camp<<" "<<second->name<<" "<<second->number<<" yelled in city "
+                         <<this->number<<std::endl;
+            }
         }
     }
 }

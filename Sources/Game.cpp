@@ -70,9 +70,13 @@ void Game::Run() {
             int hour=time/60;
             if (red_headquarter.update) {
                 map.red_cities[0]->red = red_headquarter.vector_warrior[hour];
+            }else{
+                map.red_cities[0]->red= nullptr;
             }
             if (blue_headquarter.update) {
                 map.blue_cities[0]->blue = blue_headquarter.vector_warrior[hour];
+            }else{
+                map.blue_cities[0]->blue= nullptr;
             }
             map.forge();
             for (auto &item: red_headquarter.vector_warrior) {
@@ -100,9 +104,9 @@ void Game::Run() {
             if (city_blue->blue!= nullptr){
                 auto blue=city_blue->blue;
                 std::cout << std::setw(3) << std::setfill('0') << (time / 60) << ":10 " << blue->camp << " "
-                          << blue->name << " " << blue->number << " marched to blue headquarter" 
+                          << blue->name << " " << blue->number << " reached red headquarter"
                           << " with " << blue->life << " elements and force " << blue->attack << std::endl;
-                std::cout << std::setw(3) << std::setfill('0') << (time / 60) << ":10 blue headquarter was taken"<<std::endl;
+                std::cout << std::setw(3) << std::setfill('0') << (time / 60) << ":10 red headquarter was taken"<<std::endl;
                 win=1;
             }
             for (int i=1;i<=n;i++) {
@@ -125,9 +129,9 @@ void Game::Run() {
             if (city_red->red!= nullptr){
                 auto red=city_red->red;
                 std::cout << std::setw(3) << std::setfill('0') << (time / 60) << ":10 " << red->camp << " "
-                          << red->name << " " << red->number << " marched to red headquarter"
+                          << red->name << " " << red->number << " reached blue headquarter"
                           << " with " << red->life << " elements and force " << red->attack << std::endl;
-                std::cout << std::setw(3) << std::setfill('0') << (time / 60) << ":10 red headquarter was taken"<<std::endl;
+                std::cout << std::setw(3) << std::setfill('0') << (time / 60) << ":10 blue headquarter was taken"<<std::endl;
                 if (win==1){
                     win=2;
                 }else{

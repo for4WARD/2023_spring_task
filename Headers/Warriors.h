@@ -89,7 +89,7 @@ public:
             Sword *sword=new Sword();
             dq_weapon.emplace_back(sword);
             weapon_count[0]+=1;
-        }else if ((number+1)%3==0){
+        }else if ((number+1)%3==1){
             Bomb *bomb=new Bomb();
             dq_weapon.emplace_back(bomb);
             weapon_count[1]+=1;
